@@ -33,11 +33,11 @@ public class UserRepositoyTest extends StudyApplicationTests {
     @Transactional
     public void read(){
         //비어 있을 수도 있어서 Optional 사용
-        Optional<User> user =userRepository.findById(7L);//Long 타입의 2번 아이디 검색
+        Optional<User> user =userRepository.findByAccount("TestUser03");//Long 타입의 2번 아이디 검색
         user.ifPresent(selectUser ->{
             selectUser.getOrderDetailList().stream().forEach(detail ->{
                 Item item = detail.getItem();
-                System.out.println(detail.getItem());
+                System.out.println(item);
             });
         });
     }
