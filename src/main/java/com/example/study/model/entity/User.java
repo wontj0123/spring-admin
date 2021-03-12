@@ -32,4 +32,8 @@ public class User {
 
     private String updatedBy;
 
+    //1:N 자신을 기준으로 orderDetail이랑 1:N관계
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "user")//어떤 컬럼에 매핑 시킬지 userDetail에있는 변수 명과 동일해야됨
+    private List<OrderDetail> orderDetailList;
+
 }

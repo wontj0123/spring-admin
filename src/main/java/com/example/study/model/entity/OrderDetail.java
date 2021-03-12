@@ -3,6 +3,7 @@ package com.example.study.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString(exclude = {"user","item"})
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +20,11 @@ public class OrderDetail {
 
     private LocalDateTime orderAt;
 
-    private Long userId;
+    //N:1 orderDetail의 입장에서 봤을때
+    @ManyToOne
+    private User user; //user_id를 찾아감
 
-    private Long itemId;
+    @ManyToOne
+    private Item item;
 
 }

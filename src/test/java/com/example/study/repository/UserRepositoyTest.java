@@ -1,6 +1,7 @@
 package com.example.study.repository;
 
 import com.example.study.StudyApplicationTests;
+import com.example.study.model.entity.Item;
 import com.example.study.model.entity.User;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -29,12 +30,15 @@ public class UserRepositoyTest extends StudyApplicationTests {
         System.out.println("newUser: "+newUser);
     }
     @Test
+    @Transactional
     public void read(){
         //비어 있을 수도 있어서 Optional 사용
-        Optional<User> user =userRepository.findById(2L);//Long 타입의 2번 아이디 검색
+        Optional<User> user =userRepository.findById(7L);//Long 타입의 2번 아이디 검색
         user.ifPresent(selectUser ->{
-            System.out.println("user : "+selectUser);
-            System.out.println("email : "+selectUser.getEmail());
+            selectUser.getOrderDetailList().stream().forEach(detail ->{
+                Item item = detail.getItem();
+                System.out.println(detail.getItem());
+            });
         });
     }
     @Test
