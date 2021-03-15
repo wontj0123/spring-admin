@@ -8,11 +8,13 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString(exclude = {"oderGroup"})
 public class OrderDetail {
 
     @Id
@@ -37,6 +39,9 @@ public class OrderDetail {
 
     private Long itemId;
 
-    private Long orderGroupId;
+    //private Long orderGroupId;
 
+    //OrderDetail N : 1 OrderGroup
+    @ManyToOne
+    private OrderGroup orderGroup;
 }
