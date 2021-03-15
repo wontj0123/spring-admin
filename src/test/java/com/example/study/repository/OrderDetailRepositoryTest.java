@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Repository
@@ -21,12 +22,18 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
 
         //orderDetail.setOrderAt(LocalDateTime.now());
 
-        // 어떤사람?
-        //orderDetail.setUserId(7L);
+        orderDetail.setStatus("WAITING");
+        orderDetail.setArrivalDate(LocalDateTime.now().plusDays(2));//현재일자 더하기 2일로 나타남
+        orderDetail.setQuantity(1);
+        orderDetail.setTotalPrice(BigDecimal.valueOf(900000));
 
-        // 어떤 상품?
-        //orderDetail.setItemId(1L);
 
+        orderDetail.setOrderGroupId(1L);    // 어떠한 장바구니에
+        orderDetail.setItemId(1L);          // 어떠한 상품
+
+
+        orderDetail.setCreatedAt(LocalDateTime.now());
+        orderDetail.setCreatedBy("AdminServer");
         OrderDetail newOrderDetail =orderDetailRepository.save(orderDetail);
         Assert.assertNotNull(newOrderDetail);
     }
