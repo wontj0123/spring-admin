@@ -1,9 +1,6 @@
 package com.example.study.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -21,6 +18,7 @@ import java.util.List;
 //@Table(name = "User") table 이름 명시, 하지만 클래스 이름이랑 테이블 명이 같으면 명시할 필요없음
 @ToString(exclude = {"orderGroup"})
 @EntityListeners(AuditingEntityListener.class)
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

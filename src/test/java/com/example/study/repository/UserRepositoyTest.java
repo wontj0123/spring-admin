@@ -20,8 +20,8 @@ public class UserRepositoyTest extends StudyApplicationTests {
 
     @Test
     public void create(){
-        String account = "Test03";
-        String password = "Test03";
+        String account = "builder";
+        String password = "builder";
         String status = "REGISTERED";
         String email = "Test01@gmail.com";
         String phoneNumber = "010-1111-3333";
@@ -37,6 +37,8 @@ public class UserRepositoyTest extends StudyApplicationTests {
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setRegisteredAt(registeredAt);
+
+        User u = User.builder().account(account).password(password).status(status).email(email).build();
         /*user.setCreatedAt(createdAt);
         user.setCreatedBy(createdBy);*/
 
