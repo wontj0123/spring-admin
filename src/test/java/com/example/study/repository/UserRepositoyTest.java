@@ -50,6 +50,17 @@ public class UserRepositoyTest extends StudyApplicationTests {
     @Transactional
     public void read(){
         User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
+        /*user.setEmail();
+        user.setAccount();*/
+        //user entity에 chain 걸어두면 위에 것을 아래 형태로 변형 가능
+        /*
+        -----chain을 사용하기----
+        user
+                .setEmail("")
+                .setPhoneNumber("")
+                .setStatus("");
+        User u = new User().setAccount("").setEmail("").setPassword("");*/
+
         user.getOrderGroupList().stream().forEach(orderGroup -> {
             System.out.println("---------------주문묶음---------------");
             System.out.println("수령인 :"+orderGroup.getRevName());
