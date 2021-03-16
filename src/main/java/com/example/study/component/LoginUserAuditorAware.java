@@ -1,4 +1,4 @@
-package com.example.study.config.component;
+package com.example.study.component;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
@@ -10,6 +10,7 @@ public class LoginUserAuditorAware implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
+
         return Optional.of("AdminServer");
     }
 }
