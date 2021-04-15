@@ -29,7 +29,7 @@ public class ItemApiResponse {
 
     private String brandName;
 
-    private LocalDateTime registerdAt;
+    private LocalDateTime registeredAt;
 
     private LocalDateTime unregisteredAt;
 
