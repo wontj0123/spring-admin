@@ -4,14 +4,19 @@ import com.example.study.itf.CrudInterface;
 import com.example.study.model.entity.User;
 import com.example.study.model.entity.enumclass.UserStatus;
 import com.example.study.model.network.Header;
+import com.example.study.model.network.Pagination;
 import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.UserApiResponse;
 import com.example.study.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
@@ -41,7 +46,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         User newUser = userRepository.save(user);
 
         //3. 생성된 데이터 -> userApiResponse return
-        return response(newUser);
+        return Header.ok(response(newUser));
     }
 
     @Override
@@ -54,6 +59,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
         return optional
                 .map(user -> response(user))
+                .map(userApiResponse -> Header.ok(userApiResponse))
                 .orElseGet(()->Header.ERROR("데이터 없음"));
         }
 
@@ -81,6 +87,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         })
                 .map(user -> userRepository.save(user))//update ->newUser
                 .map(updateUser -> response(updateUser))//userApiResponse
+                .map(Header::ok)
                 .orElseGet(()->Header.ERROR("데이터 없음"));
         //3. update
 
@@ -103,7 +110,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
         //3.response return
     }
 
-    private Header<UserApiResponse> response(User user){
+    private UserApiResponse response(User user){
         //user -> userApiResponse
 
         UserApiResponse userApiResponse =UserApiResponse.builder()
@@ -118,6 +125,26 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .build();
 
         //Header + data return
-        return Header.ok(userApiResponse);
+        return userApiResponse;
+    }
+
+    public Header<List<UserApiResponse>> search(Pageable pageable) {
+        Page<User>users =userRepository.findAll(pageable);
+
+        List<UserApiResponse> userApiResponseList = users.stream()
+                .map(user -> response(user))
+                .collect(Collectors.toList());
+
+        //List<UserApiResponse>
+        //Header<List<UserApiResponse>>
+
+        Pagination pagination = Pagination.builder()
+                .totalPage(users.getTotalPages())
+                .totalElements(users.getTotalElements())
+                .currentPage(users.getNumber())
+                .currentElements(users.getNumberOfElements())
+                .build();
+
+        return Header.ok(userApiResponseList,pagination);
     }
 }
